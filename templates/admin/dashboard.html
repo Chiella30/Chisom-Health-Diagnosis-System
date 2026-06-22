@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - Nigerian Health Diagnosis System{% endblock %}
+{% block content %}
+<section class="admin-dashboard">
+    <div class="admin-header">
+        <h1><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h1>
+        <p>System overview and management</p>
+    </div>
+
+    <div class="admin-stats">
+        <div class="admin-stat-card">
+            <div class="stat-icon patients"><i class="fas fa-users"></i></div>
+            <div class="stat-info">
+                <h3>{{ total_patients }}</h3>
+                <p>Total Patients</p>
+            </div>
+        </div>
+        <div class="admin-stat-card">
+            <div class="stat-icon diagnoses"><i class="fas fa-clipboard-check"></i></div>
+            <div class="stat-info">
+                <h3>{{ total_diagnoses }}</h3>
+                <p>Total Diagnoses</p>
+            </div>
+        </div>
+        <div class="admin-stat-card">
+            <div class="stat-icon diseases"><i class="fas fa-virus"></i></div>
+            <div class="stat-info">
+                <h3>{{ total_diseases }}</h3>
+                <p>Diseases</p>
+            </div>
+        </div>
+        <div class="admin-stat-card">
+            <div class="stat-icon symptoms"><i class="fas fa-list"></i></div>
+            <div class="stat-info">
+                <h3>{{ total_symptoms }}</h3>
+                <p>Symptoms</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-grid">
+        <div class="admin-card">
+            <h2><i class="fas fa-chart-pie"></i> Disease Distribution</h2>
+            {% if disease_distribution %}
+            <div class="distribution-list">
+                {% for disease in disease_distribution %}
+                <div class="distribution-item">
+                    <span class="disease-name">{{ disease['disease_name'] }}</span>
+                    <div class="distribution-bar">
+                        <div class="bar-fill" style="width: {{ (disease['count'] / disease_distribution|sum(attribute='count') * 100)|round }}%"></div>
+                    </div>
+                    <span class="disease-count">{{ disease['count'] }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="empty-text">No diagnosis data yet.</p>
+            {% endif %}
+        </div>
+
+        <div class="admin-card">
+            <h2><i class="fas fa-history"></i> Recent Diagnoses</h2>
+            {% if recent_diagnoses %}
+            <div class="recent-list">
+                {% for diag in recent_diagnoses %}
+                <div class="recent-item">
+                    <div class="recent-info">
+                        <strong>{{ diag['full_name'] }}</strong>
+                        <span>{{ diag['disease_name'] }}</span>
+                    </div>
+                    <span class="recent-confidence">{{ diag['confidence_score'] }}%</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="empty-text">No recent diagnoses.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="admin-actions">
+        <h2><i class="fas fa-cogs"></i> Quick Actions</h2>
+        <div class="action-grid">
+            <a href="{{ url_for('admin_diseases') }}" class="action-card">
+                <i class="fas fa-virus"></i>
+                <span>Manage Diseases</span>
+            </a>
+            <a href="{{ url_for('admin_symptoms') }}" class="action-card">
+                <i class="fas fa-list"></i>
+                <span>Manage Symptoms</span>
+            </a>
+            <a href="{{ url_for('admin_rules') }}" class="action-card">
+                <i class="fas fa-project-diagram"></i>
+                <span>Manage Rules</span>
+            </a>
+            <a href="{{ url_for('admin_users') }}" class="action-card">
+                <i class="fas fa-users"></i>
+                <span>Manage Users</span>
+            </a>
+            <a href="{{ url_for('admin_settings') }}" class="action-card">
+                <i class="fas fa-cog"></i>
+                <span>System Settings</span>
+            </a>
+            <a href="{{ url_for('admin_reports') }}" class="action-card">
+                <i class="fas fa-chart-bar"></i>
+                <span>View Reports</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

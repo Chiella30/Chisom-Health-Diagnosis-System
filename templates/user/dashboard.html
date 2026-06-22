@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Nigerian Health Diagnosis System{% endblock %}
+{% block content %}
+<section class="dashboard">
+    <div class="dashboard-header">
+        <div class="welcome-msg">
+            <h1><i class="fas fa-tachometer-alt"></i> Welcome, {{ user['full_name'] }}!</h1>
+            <p>Your personal health dashboard</p>
+        </div>
+        <a href="{{ url_for('symptom_checker') }}" class="btn btn-primary">
+            <i class="fas fa-stethoscope"></i> Check Symptoms
+        </a>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-clipboard-check"></i></div>
+            <div class="stat-info">
+                <h3>{{ diagnosis_count }}</h3>
+                <p>Total Diagnoses</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+            <div class="stat-info">
+                <h3>{{ recent_diagnoses|length }}</h3>
+                <p>Recent Checks</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="stat-info">
+                <h3>{{ user['location'] or 'Not Set' }}</h3>
+                <p>Your Location</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-section">
+        <h2><i class="fas fa-history"></i> Recent Diagnoses</h2>
+        {% if recent_diagnoses %}
+        <div class="diagnosis-list">
+            {% for diag in recent_diagnoses %}
+            <div class="diagnosis-card {{ diag['severity_level']|lower }}">
+                <div class="diagnosis-header">
+                    <h3><i class="fas fa-virus"></i> {{ diag['disease_name'] }}</h3>
+                    <span class="confidence">{{ diag['confidence_score'] }}% Match</span>
+                </div>
+                <div class="diagnosis-meta">
+                    <span class="severity {{ diag['severity_level']|lower }}">{{ diag['severity_level'] }}</span>
+                    <span class="date"><i class="fas fa-clock"></i> {{ diag['diagnosis_date'] }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            <a href="{{ url_for('history') }}" class="btn btn-secondary">
+                <i class="fas fa-list"></i> View Full History
+            </a>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-clipboard-list"></i>
+            <p>No diagnoses yet. Start by checking your symptoms!</p>
+            <a href="{{ url_for('symptom_checker') }}" class="btn btn-primary">
+                <i class="fas fa-stethoscope"></i> Check Symptoms
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="dashboard-section">
+        <h2><i class="fas fa-lightbulb"></i> Quick Tips</h2>
+        <div class="tips-grid">
+            <div class="tip-card">
+                <i class="fas fa-hand-holding-water"></i>
+                <p>Stay hydrated by drinking at least 8 glasses of water daily</p>
+            </div>
+            <div class="tip-card">
+                <i class="fas fa-bed"></i>
+                <p>Get 7-8 hours of quality sleep every night</p>
+            </div>
+            <div class="tip-card">
+                <i class="fas fa-apple-alt"></i>
+                <p>Eat a balanced diet rich in fruits and vegetables</p>
+            </div>
+            <div class="tip-card">
+                <i class="fas fa-running"></i>
+                <p>Exercise regularly to boost your immune system</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

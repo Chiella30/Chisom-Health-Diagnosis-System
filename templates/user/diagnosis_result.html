@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Diagnosis Result - Nigerian Health Diagnosis System{% endblock %}
+{% block content %}
+<section class="diagnosis-result">
+    <div class="result-header">
+        <h1><i class="fas fa-clipboard-check"></i> Diagnosis Results</h1>
+        <p>Based on the symptoms you provided</p>
+    </div>
+
+    <div class="selected-symptoms">
+        <h3><i class="fas fa-list"></i> Selected Symptoms ({{ duration_days }} day(s))</h3>
+        <div class="symptom-tags">
+            {% for symptom in symptoms_list %}
+                {% if symptom['symptom_id'] in symptom_ids %}
+                <span class="symptom-tag"><i class="fas fa-check"></i> {{ symptom['symptom_name'] }}</span>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="diagnoses-container">
+        {% for diag in diagnoses %}
+        <div class="diagnosis-card main {{ diag['disease']['severity_level']|lower }}">
+            <div class="diagnosis-rank">#{{ loop.index }}</div>
+            <div class="diagnosis-content">
+                <h2><i class="fas fa-virus"></i> {{ diag['disease']['disease_name'] }}</h2>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: {{ diag['confidence'] }}%"></div>
+                    <span>{{ diag['confidence'] }}% Confidence</span>
+                </div>
+                <p class="disease-description">{{ diag['disease']['description'] }}</p>
+                <span class="severity-badge {{ diag['disease']['severity_level']|lower }}">{{ diag['disease']['severity_level'] }} Severity</span>
+            </div>
+        </div>
+
+        <div class="recommendations-section">
+            <h3><i class="fas fa-user-md"></i> Recommendations</h3>
+            {% for rec in diag['recommendations'] %}
+            <div class="recommendation-card {{ rec['urgency']|lower }}">
+                <div class="rec-header">
+                    <span class="rec-type"><i class="fas fa-{{ 'hand-holding-medical' if rec['type'] == 'Self-Care' else 'shield-virus' if rec['type'] == 'Preventive' else 'hospital' }}"></i> {{ rec['type'] }}</span>
+                    <span class="urgency-badge {{ rec['urgency']|lower }}">{{ rec['urgency'] }}</span>
+                </div>
+                <p>{{ rec['text'] }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="result-actions">
+        <a href="{{ url_for('symptom_checker') }}" class="btn btn-primary">
+            <i class="fas fa-redo"></i> Check Again
+        </a>
+        <a href="{{ url_for('history') }}" class="btn btn-secondary">
+            <i class="fas fa-history"></i> View History
+        </a>
+    </div>
+
+    <div class="disclaimer-box critical">
+        <i class="fas fa-exclamation-circle"></i>
+        <p><strong>Important:</strong> This is a preliminary diagnosis based on AI analysis. Please consult a qualified healthcare professional for accurate diagnosis and treatment. Do not self-medicate without professional guidance.</p>
+    </div>
+</section>
+{% endblock %}

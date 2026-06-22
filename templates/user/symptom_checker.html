@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Symptom Checker - Nigerian Health Diagnosis System{% endblock %}
+{% block content %}
+<section class="symptom-checker">
+    <div class="checker-header">
+        <h1><i class="fas fa-stethoscope"></i> Symptom Checker</h1>
+        <p>Select the symptoms you are experiencing to get a preliminary diagnosis</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('symptom_checker') }}" class="symptom-form">
+        <div class="symptom-categories">
+            {% for category, symptoms in symptoms_by_category.items() %}
+            <div class="symptom-category">
+                <h3><i class="fas fa-folder-open"></i> {{ category }}</h3>
+                <div class="symptom-grid">
+                    {% for symptom in symptoms %}
+                    <label class="symptom-item">
+                        <input type="checkbox" name="symptoms" value="{{ symptom['symptom_id'] }}">
+                        <span class="symptom-box">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="symptom-name">{{ symptom['symptom_name'] }}</span>
+                            <small>{{ symptom['description'] }}</small>
+                        </span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="duration-section">
+            <h3><i class="fas fa-clock"></i> How long have you been experiencing these symptoms?</h3>
+            <div class="duration-options">
+                <label class="duration-option">
+                    <input type="radio" name="duration_days" value="1" checked>
+                    <span>1 day</span>
+                </label>
+                <label class="duration-option">
+                    <input type="radio" name="duration_days" value="3">
+                    <span>2-3 days</span>
+                </label>
+                <label class="duration-option">
+                    <input type="radio" name="duration_days" value="7">
+                    <span>1 week</span>
+                </label>
+                <label class="duration-option">
+                    <input type="radio" name="duration_days" value="14">
+                    <span>2 weeks+</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-search"></i> Analyze Symptoms
+            </button>
+            <button type="reset" class="btn btn-secondary">
+                <i class="fas fa-undo"></i> Clear Selection
+            </button>
+        </div>
+    </form>
+
+    <div class="disclaimer-box">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p><strong>Disclaimer:</strong> This system provides preliminary diagnosis only. Always consult a healthcare professional for accurate diagnosis and treatment.</p>
+    </div>
+</section>
+{% endblock %}

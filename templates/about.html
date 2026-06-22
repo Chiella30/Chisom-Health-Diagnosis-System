@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}About - Nigerian Health Diagnosis System{% endblock %}
+{% block content %}
+<section class="about-section">
+    <div class="about-header">
+        <h1><i class="fas fa-info-circle"></i> About the System</h1>
+        <p>Web-Based Automated Symptom Diagnosis and Patient Recommendation System</p>
+    </div>
+
+    <div class="about-content">
+        <div class="about-card">
+            <h2><i class="fas fa-bullseye"></i> Project Aim</h2>
+            <p>To develop a user-friendly web-based automated symptom diagnosis and patient recommendation system tailored to the Nigerian healthcare context, improving early detection of diseases, enhancing access to reliable health information, reducing delays in medical diagnosis, and supporting more efficient healthcare service delivery.</p>
+        </div>
+
+        <div class="about-card">
+            <h2><i class="fas fa-cogs"></i> How It Works</h2>
+            <div class="workflow-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Register / Login</h3>
+                    <p>Create an account or log in to access the system</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Input Symptoms</h3>
+                    <p>Select symptoms you're experiencing from our comprehensive list</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>AI Diagnosis</h3>
+                    <p>Our Hybrid AI engine analyzes symptoms using Rule-Based + Naive Bayes</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Get Recommendations</h3>
+                    <p>Receive personalized healthcare advice and referral guidance</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-card">
+            <h2><i class="fas fa-brain"></i> Hybrid AI Technology</h2>
+            <p>The system uses a hybrid artificial intelligence model that combines:</p>
+            <ul>
+                <li><strong>Rule-Based Engine:</strong> Uses predefined medical rules and symptom-disease mappings with confidence weights</li>
+                <li><strong>Naive Bayes Classifier:</strong> Probabilistic machine learning algorithm that calculates disease probabilities based on symptom patterns</li>
+                <li><strong>Weighted Fusion:</strong> Combines both approaches using a tunable alpha parameter (default 0.6) for optimal accuracy</li>
+            </ul>
+        </div>
+
+        <div class="about-card">
+            <h2><i class="fas fa-shield-alt"></i> Important Disclaimer</h2>
+            <div class="disclaimer">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p><strong>This system provides preliminary diagnosis only.</strong> It is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read on this system.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Manage Diseases - Admin{% endblock %}
+{% block content %}
+<section class="admin-section">
+    <div class="admin-header">
+        <h1><i class="fas fa-virus"></i> Manage Diseases</h1>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+
+    <div class="admin-card">
+        <h2><i class="fas fa-plus-circle"></i> Add New Disease</h2>
+        <form method="POST" action="{{ url_for('add_disease') }}" class="admin-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Disease Name *</label>
+                    <input type="text" name="disease_name" required placeholder="e.g., Malaria">
+                </div>
+                <div class="form-group">
+                    <label>Severity Level</label>
+                    <select name="severity_level">
+                        <option value="Low">Low</option>
+                        <option value="Moderate">Moderate</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea name="description" rows="2" placeholder="Brief description..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Common Symptoms</label>
+                <input type="text" name="common_symptoms" placeholder="Comma-separated symptoms">
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Add Disease</button>
+        </form>
+    </div>
+
+    <div class="admin-card">
+        <h2><i class="fas fa-list"></i> All Diseases ({{ diseases|length }})</h2>
+        <div class="table-responsive">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Severity</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for disease in diseases %}
+                    <tr>
+                        <td>{{ disease['disease_id'] }}</td>
+                        <td><strong>{{ disease['disease_name'] }}</strong></td>
+                        <td><span class="severity-badge {{ disease['severity_level']|lower }}">{{ disease['severity_level'] }}</span></td>
+                        <td>{{ disease['description'][:50] }}...</td>
+                        <td>
+                            <button class="btn btn-sm btn-edit" onclick="editDisease({{ disease['disease_id'] }}, '{{ disease['disease_name'] }}', '{{ disease['description'] }}', '{{ disease['severity_level'] }}', '{{ disease['common_symptoms'] }}')"><i class="fas fa-edit"></i></button>
+                            <a href="{{ url_for('delete_disease', disease_id=disease['disease_id']) }}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this disease?')"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2><i class="fas fa-edit"></i> Edit Disease</h2>
+        <form method="POST" id="editForm" class="admin-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Disease Name</label>
+                    <input type="text" name="disease_name" id="edit_name" required>
+                </div>
+                <div class="form-group">
+                    <label>Severity Level</label>
+                    <select name="severity_level" id="edit_severity">
+                        <option value="Low">Low</option>
+                        <option value="Moderate">Moderate</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea name="description" id="edit_desc" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Common Symptoms</label>
+                <input type="text" name="common_symptoms" id="edit_symptoms">
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Update</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function editDisease(id, name, desc, severity, symptoms) {
+    document.getElementById('editForm').action = '/admin/diseases/edit/' + id;
+    document.getElementById('edit_name').value = name;
+    document.getElementById('edit_desc').value = desc;
+    document.getElementById('edit_severity').value = severity;
+    document.getElementById('edit_symptoms').value = symptoms;
+    document.getElementById('editModal').style.display = 'block';
+}
+function closeModal() {
+    document.getElementById('editModal').style.display = 'none';
+}
+</script>
+{% endblock %}

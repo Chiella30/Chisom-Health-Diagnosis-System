@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Manage Users - Admin{% endblock %}
+{% block content %}
+<section class="admin-section">
+    <div class="admin-header">
+        <h1><i class="fas fa-users"></i> Manage Users</h1>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+
+    <div class="admin-card">
+        <h2><i class="fas fa-list"></i> All Users ({{ users|length }})</h2>
+        <div class="table-responsive">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Type</th>
+                        <th>Location</th>
+                        <th>Joined</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user['user_id'] }}</td>
+                        <td><strong>{{ user['full_name'] }}</strong></td>
+                        <td>{{ user['email'] }}</td>
+                        <td><span class="type-badge {{ user['user_type'] }}">{{ user['user_type'] }}</span></td>
+                        <td>{{ user['location'] or 'N/A' }}</td>
+                        <td>{{ user['created_at'] }}</td>
+                        <td>
+                            {% if user['user_id'] != session.user_id %}
+                            <a href="{{ url_for('delete_user', user_id=user['user_id']) }}" class="btn btn-sm btn-danger" onclick="return confirm('Delete user {{ user['full_name'] }}? This will remove all their data!')"><i class="fas fa-trash"></i></a>
+                            {% else %}
+                            <span class="badge-current">You</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

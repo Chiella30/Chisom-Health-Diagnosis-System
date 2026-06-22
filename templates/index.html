@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block title %}Home - Nigerian Health Diagnosis System{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <h1><i class="fas fa-heartbeat"></i> Nigerian Health Diagnosis System</h1>
+        <p class="hero-subtitle">Web-Based Automated Symptom Diagnosis & Patient Recommendation System</p>
+        <p class="hero-description">Using Hybrid AI (Rule-Based + Naive Bayes) to provide preliminary disease diagnosis and personalized healthcare recommendations tailored to the Nigerian healthcare context.</p>
+        <div class="hero-buttons">
+            {% if not session.user_id %}
+                <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg"><i class="fas fa-user-plus"></i> Get Started</a>
+                <a href="{{ url_for('login') }}" class="btn btn-secondary btn-lg"><i class="fas fa-sign-in-alt"></i> Login</a>
+            {% else %}
+                {% if session.user_type == 'admin' %}
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-primary btn-lg"><i class="fas fa-tachometer-alt"></i> Admin Dashboard</a>
+                {% else %}
+                    <a href="{{ url_for('symptom_checker') }}" class="btn btn-primary btn-lg"><i class="fas fa-stethoscope"></i> Check Symptoms</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="hero-stats">
+        <div class="stat-card">
+            <i class="fas fa-brain"></i>
+            <h3>Hybrid AI</h3>
+            <p>Rule-Based + Machine Learning</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-virus"></i>
+            <h3>8 Diseases</h3>
+            <p>Common Nigerian Conditions</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-clipboard-list"></i>
+            <h3>20 Symptoms</h3>
+            <p>Comprehensive Coverage</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Secure</h3>
+            <p>Encrypted Data Storage</p>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <h2><i class="fas fa-star"></i> Key Features</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-robot"></i></div>
+            <h3>Automated Diagnosis</h3>
+            <p>Input your symptoms and receive instant preliminary diagnosis using our hybrid AI engine combining rule-based reasoning and Naive Bayes classification.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-user-md"></i></div>
+            <h3>Personalized Recommendations</h3>
+            <p>Get tailored healthcare advice including self-care tips, preventive measures, and referral guidance based on your diagnosis.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-history"></i></div>
+            <h3>Medical History</h3>
+            <p>Track all your previous diagnoses and recommendations in one place for easy reference and monitoring.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+            <h3>Mobile Responsive</h3>
+            <p>Access the system from any device - smartphone, tablet, or computer - with a fully responsive design.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-lock"></i></div>
+            <h3>Secure & Private</h3>
+            <p>Your health data is protected with secure authentication and encrypted password storage.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <h3>Nigerian Context</h3>
+            <p>Specifically designed for Nigerian healthcare challenges including malaria, typhoid, and other prevalent conditions.</p>
+        </div>
+    </div>
+</section>
+
+<section class="diseases-section">
+    <h2><i class="fas fa-virus"></i> Supported Diseases</h2>
+    <div class="diseases-grid">
+        <div class="disease-card high">
+            <i class="fas fa-mosquito"></i>
+            <h3>Malaria</h3>
+            <span class="severity high">High Severity</span>
+        </div>
+        <div class="disease-card high">
+            <i class="fas fa-bacterium"></i>
+            <h3>Typhoid Fever</h3>
+            <span class="severity high">High Severity</span>
+        </div>
+        <div class="disease-card moderate">
+            <i class="fas fa-head-side-cough"></i>
+            <h3>Influenza</h3>
+            <span class="severity moderate">Moderate Severity</span>
+        </div>
+        <div class="disease-card high">
+            <i class="fas fa-lungs"></i>
+            <h3>Pneumonia</h3>
+            <span class="severity high">High Severity</span>
+        </div>
+        <div class="disease-card low">
+            <i class="fas fa-head-side-virus"></i>
+            <h3>Common Cold</h3>
+            <span class="severity low">Low Severity</span>
+        </div>
+        <div class="disease-card moderate">
+            <i class="fas fa-stomach"></i>
+            <h3>Gastroenteritis</h3>
+            <span class="severity moderate">Moderate Severity</span>
+        </div>
+        <div class="disease-card high">
+            <i class="fas fa-mosquito"></i>
+            <h3>Dengue Fever</h3>
+            <span class="severity high">High Severity</span>
+        </div>
+        <div class="disease-card high">
+            <i class="fas fa-virus"></i>
+            <h3>COVID-19</h3>
+            <span class="severity high">High Severity</span>
+        </div>
+    </div>
+</section>
+{% endblock %}

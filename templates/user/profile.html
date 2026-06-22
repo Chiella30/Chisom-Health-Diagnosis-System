@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Profile - Nigerian Health Diagnosis System{% endblock %}
+{% block content %}
+<section class="profile-section">
+    <div class="profile-header">
+        <div class="profile-avatar">
+            <i class="fas fa-user-circle"></i>
+        </div>
+        <h1>{{ user['full_name'] }}</h1>
+        <span class="profile-badge"><i class="fas fa-user"></i> Patient</span>
+    </div>
+
+    <div class="profile-card">
+        <h2><i class="fas fa-edit"></i> Edit Profile</h2>
+        <form method="POST" action="{{ url_for('profile') }}" class="profile-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" name="full_name" value="{{ user['full_name'] }}" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" value="{{ user['email'] }}" disabled>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Phone Number</label>
+                    <input type="tel" name="phone_no" value="{{ user['phone_no'] or '' }}" placeholder="+234...">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-calendar"></i> Date of Birth</label>
+                    <input type="date" name="date_of_birth" value="{{ user['date_of_birth'] or '' }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-map-marker-alt"></i> Location</label>
+                <input type="text" name="location" value="{{ user['location'] or '' }}" placeholder="State/LGA">
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Update Profile
+            </button>
+        </form>
+    </div>
+
+    <div class="profile-info">
+        <div class="info-card">
+            <h3><i class="fas fa-info-circle"></i> Account Information</h3>
+            <p><strong>Member Since:</strong> {{ user['created_at'] }}</p>
+            <p><strong>Account Type:</strong> Patient</p>
+            <p><strong>User ID:</strong> #{{ user['user_id'] }}</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

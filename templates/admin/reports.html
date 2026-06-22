@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Reports - Admin{% endblock %}
+{% block content %}
+<section class="admin-section">
+    <div class="admin-header">
+        <h1><i class="fas fa-chart-bar"></i> System Reports</h1>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+
+    <div class="reports-grid">
+        <div class="admin-card">
+            <h2><i class="fas fa-chart-line"></i> Monthly Diagnoses</h2>
+            {% if monthly_stats %}
+            <div class="chart-data">
+                {% for stat in monthly_stats %}
+                <div class="chart-bar-item">
+                    <span class="chart-label">{{ stat['month'] }}</span>
+                    <div class="chart-bar">
+                        <div class="bar-fill" style="width: 100%"></div>
+                    </div>
+                    <span class="chart-value">{{ stat['count'] }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="empty-text">No data available.</p>
+            {% endif %}
+        </div>
+
+        <div class="admin-card">
+            <h2><i class="fas fa-virus"></i> Top Diseases</h2>
+            {% if top_diseases %}
+            <div class="chart-data">
+                {% for disease in top_diseases %}
+                <div class="chart-bar-item">
+                    <span class="chart-label">{{ disease['disease_name'] }}</span>
+                    <div class="chart-bar">
+                        <div class="bar-fill" style="width: 100%"></div>
+                    </div>
+                    <span class="chart-value">{{ disease['count'] }} ({{ disease['avg_confidence']|round(1) }}%)</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="empty-text">No data available.</p>
+            {% endif %}
+        </div>
+
+        <div class="admin-card">
+            <h2><i class="fas fa-user-plus"></i> User Growth</h2>
+            {% if user_growth %}
+            <div class="chart-data">
+                {% for growth in user_growth %}
+                <div class="chart-bar-item">
+                    <span class="chart-label">{{ growth['month'] }}</span>
+                    <div class="chart-bar">
+                        <div class="bar-fill" style="width: 100%"></div>
+                    </div>
+                    <span class="chart-value">{{ growth['count'] }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="empty-text">No data available.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

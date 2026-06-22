@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}System Settings - Admin{% endblock %}
+{% block content %}
+<section class="admin-section">
+    <div class="admin-header">
+        <h1><i class="fas fa-cog"></i> System Settings</h1>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+
+    <div class="admin-card">
+        <h2><i class="fas fa-sliders-h"></i> AI Engine Configuration</h2>
+        <form method="POST" action="{{ url_for('admin_settings') }}" class="admin-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Fusion Weight Alpha (ML vs Rule-Based)</label>
+                    <input type="number" name="fusion_weight_alpha" step="0.1" min="0" max="1" 
+                           value="{{ settings['fusion_weight_alpha']['setting_value'] }}" required>
+                    <small>0 = All Rule-Based, 1 = All ML, 0.6 = Balanced (Recommended)</small>
+                </div>
+                <div class="form-group">
+                    <label>Minimum Confidence Threshold</label>
+                    <input type="number" name="min_confidence_threshold" step="0.05" min="0" max="1" 
+                           value="{{ settings['min_confidence_threshold']['setting_value'] }}" required>
+                    <small>Minimum confidence score to display a diagnosis</small>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Max Diagnoses to Show</label>
+                    <input type="number" name="max_diagnoses" min="1" max="10" 
+                           value="{{ settings['max_diagnoses']['setting_value'] }}" required>
+                </div>
+                <div class="form-group">
+                    <label>System Name</label>
+                    <input type="text" name="system_name" 
+                           value="{{ settings['system_name']['setting_value'] }}" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Settings</button>
+        </form>
+    </div>
+
+    <div class="admin-card">
+        <h2><i class="fas fa-info-circle"></i> Current Settings</h2>
+        <div class="settings-list">
+            {% for name, setting in settings.items() %}
+            <div class="setting-item">
+                <div class="setting-info">
+                    <strong>{{ name.replace('_', ' ').title() }}</strong>
+                    <p>{{ setting['description'] }}</p>
+                </div>
+                <span class="setting-value">{{ setting['setting_value'] }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
